@@ -68,16 +68,16 @@ directory "#{node['mysql']['conf_dir']}/mysql/conf.d" do
   recursive true
 end
 
-service "mysql" do
-  service_name node['mysql']['service_name']
-  if (platform?("ubuntu") && node.platform_version.to_f >= 10.04)
-    restart_command "restart mysql"
-    stop_command "stop mysql"
-    start_command "start mysql"
-  end
-  supports :status => true, :restart => true, :reload => true
-  action :nothing
-end
+#service "mysql" do
+#  service_name node['mysql']['service_name']
+#  if (platform?("ubuntu") && node.platform_version.to_f >= 10.04)
+#    restart_command "restart mysql"
+#    stop_command "stop mysql"
+#    start_command "start mysql"
+#  end
+#  supports :status => true, :restart => true, :reload => true
+#  action :nothing
+#end
 
 skip_federated = case node['platform']
                  when 'fedora', 'ubuntu', 'amazon'
@@ -93,7 +93,7 @@ template "#{node['mysql']['conf_dir']}/my.cnf" do
   owner "root"
   group node['mysql']['root_group']
   mode "0644"
-  notifies :restart, resources(:service => "mysql"), :immediately
+  #notifies :restart, resources(:service => "mysql"), :immediately
   variables :skip_federated => skip_federated
 end
 
